@@ -28,20 +28,22 @@ $(function() {
 	var resetDragContainment = function() {
 		$.each(tiles,function(i,row) {
 			$.each(row,function(n,tile) {
-					if (tile!=="blank") {
-						var contain_rect = [0,0,0,0];
-						if (i>0 && tiles[i-1][n]=="blank") {
-							contain_rect = [tile.position().left , tile.position().top-tile_height , tile.position().left,tile.position().top ];	
-						} else if (i<num_tiles_high-1 && tiles[i+1][n]=="blank") {
-							contain_rect = [tile.position().left , tile.position().top , tile.position().left,tile.position().top+tile_height ];	
-						} else if (n>0 && tiles[i][n-1]=="blank") {
-							contain_rect = [tile.position().left-tile_width , tile.position().top , tile.position().left,tile.position().top ];	
-						} else if (n<num_tiles_wide-1 && tiles[i][n+1]=="blank") {
-							contain_rect = [tile.position().left , tile.position().top, tile.position().left+tile_width,tile.position().top ];	
-						}					
-						
-						tile.draggable("option","containment", contain_rect )
-					}
+				if (tile!=="blank") {
+					var contain_rect = [0,0,0,0];
+					if (i>0 && tiles[i-1][n]=="blank") {
+						contain_rect = [tile.position().left , tile.position().top-tile_height , tile.position().left,tile.position().top ];	
+					} else if (i<num_tiles_high-1 && tiles[i+1][n]=="blank") {
+						contain_rect = [tile.position().left , tile.position().top , tile.position().left,tile.position().top+tile_height ];	
+					} else if (n>0 && tiles[i][n-1]=="blank") {
+						contain_rect = [tile.position().left-tile_width , tile.position().top , tile.position().left,tile.position().top ];	
+					} else if (n<num_tiles_wide-1 && tiles[i][n+1]=="blank") {
+						contain_rect = [tile.position().left , tile.position().top, tile.position().left+tile_width,tile.position().top ];	
+					} else {
+						contain_rect = [tile.position().left , tile.position().top, tile.position().left,tile.position().top ];	
+					}	
+					
+					tile.draggable("option","containment", contain_rect )
+				}
 			})
 		})
 	}
