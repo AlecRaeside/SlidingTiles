@@ -3,5 +3,8 @@
 	width:100px;
 	height:80px;
 	background:#ccc;
-	box-shadow:0px 0px 5px blue;
+
+}
+#tiles div.blank {
+	background:none;
 }
