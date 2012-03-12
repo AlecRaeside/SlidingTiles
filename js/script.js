@@ -17,7 +17,7 @@ var initGame = function(opts) {
 				if (blank_x==n && blank_y ==i) {
 					tile.addClass("blank");
 				} else {
-					tile.append(opts.canvases[i][n])
+					tile.append(opts.canvases.pop())
 				}
 				tile.css({"left":(n*tile_width),"top":(i*tile_height)});
 				tile.data("coords",{"row":i,"column":n});
@@ -94,21 +94,20 @@ function generateImageTiles(num_horizontal_tiles,imgsrc,callback) {
 		log(tile_size,num_horizontal_tiles,num_vertical_tiles)
 		var canvases = []
 		for (var i = 0; i < num_vertical_tiles; i += 1) {
-			canvases[i]=[]
 			for (var n = 0; n < num_horizontal_tiles; n += 1) {
-
 				var c = document.createElement("canvas");
 				c.width = tile_size;
 				c.height = tile_size;
 				var ctx = c.getContext("2d");
-				log(img,n*tile_size, i*tile_size, tile_size,tile_size,0,0,tile_size,tile_size)
+				$(c).data("original_coords",{"row":i,"column":n});
 				ctx.drawImage(img,n*tile_size, i*tile_size, tile_size,tile_size,0,0,tile_size,tile_size);
-				canvases[i][n]=c;
-				
+				canvases.push(c);
+
 			}	
-			
 		}
-		
+		canvases.sort(function() {
+  			return (Math.round(Math.random())-0.5);
+		})
 		callback({
 			"canvases":canvases,
 			"rows":num_vertical_tiles,
@@ -119,5 +118,5 @@ function generateImageTiles(num_horizontal_tiles,imgsrc,callback) {
 	}, false);
 	img.src = imgsrc;
 }
-generateImageTiles(4,"cessnock.jpg",initGame);
+generateImageTiles(3,"cessnock.jpg",initGame);
 
