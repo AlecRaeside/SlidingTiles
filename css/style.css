@@ -1,8 +1,7 @@
 #tiles div {
 	position:absolute;
-	width:100px;
-	height:80px;
-	background:#ccc;
+
+	-background:#ccc;
 
 }
 #tiles div.blank {

@@ -1,13 +1,12 @@
-/* Author:
 
-*/
-$(function() {
+var initGame = function(opts) {
+		log(opts)
 	var tiles = [],
 		$tiles = $("#tiles"),
-		num_tiles_wide = 3,
-		num_tiles_high = 4,
-		tile_width = 100,
-		tile_height = 80,
+		num_tiles_wide = opts.columns,
+		num_tiles_high = opts.rows,
+		tile_width = opts.tile_size,
+		tile_height = opts.tile_size,
 		blank_x = Math.floor(Math.random()*num_tiles_wide),
 		blank_y = Math.floor(Math.random()*num_tiles_high);
 	for (var i=0;i<num_tiles_high;i++) {
@@ -17,7 +16,9 @@ $(function() {
 				var tile = $("<div></div>")
 				if (blank_x==n && blank_y ==i) {
 					tile.addClass("blank");
-				}	
+				} else {
+					tile.append(opts.canvases[i][n])
+				}
 				tile.css({"left":(n*tile_width),"top":(i*tile_height)});
 				tile.data("coords",{"row":i,"column":n});
 				
@@ -73,7 +74,50 @@ $(function() {
 		}
 	})
 	resetDragContainment()
-})
+};
 
+function generateImageTiles(num_horizontal_tiles,imgsrc,callback) {
+	var elem = document.createElement('canvas'),
+		context = elem.getContext('2d');
+	if (!context || !context.getImageData || !context.putImageData || !context.drawImage) {
+		return;
+	}
+ 
+	var img = new Image();
 
+	img.addEventListener('load', function() {
+		context.drawImage(this, 0, 0);
+	 
+		//var tile_size = Math.floor((this.width/num_horizontal_tiles)/9)*;
+		var tile_size = Math.floor(this.width/num_horizontal_tiles);
+		var num_vertical_tiles = parseInt(this.height/tile_size);
+		log(tile_size,num_horizontal_tiles,num_vertical_tiles)
+		var canvases = []
+		for (var i = 0; i < num_vertical_tiles; i += 1) {
+			canvases[i]=[]
+			for (var n = 0; n < num_horizontal_tiles; n += 1) {
+
+				var c = document.createElement("canvas");
+				c.width = tile_size;
+				c.height = tile_size;
+				var ctx = c.getContext("2d");
+				log(img,n*tile_size, i*tile_size, tile_size,tile_size,0,0,tile_size,tile_size)
+				ctx.drawImage(img,n*tile_size, i*tile_size, tile_size,tile_size,0,0,tile_size,tile_size);
+				canvases[i][n]=c;
+				
+			}	
+			
+		}
+		
+		callback({
+			"canvases":canvases,
+			"rows":num_vertical_tiles,
+			"columns":num_horizontal_tiles,
+			"tile_size":tile_size
+		});
+
+	}, false);
+	img.src = imgsrc;
+}
+generateImageTiles(4,"cessnock.jpg",initGame);
 
