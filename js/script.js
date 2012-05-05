@@ -118,6 +118,6 @@ function generateImageTiles(num_horizontal_tiles,imgsrc,callback) {
 	}, false);
 	img.src = imgsrc;
 }
-//generateImageTiles(3,"cessnock.jpg",initGame);
-generateImageTiles(20,"589_K&A Wedd.jpg",initGame);
+generateImageTiles(4,"cessnock.jpg",initGame);
+//generateImageTiles(20,"589_K&A Wedd.jpg",initGame);
 
